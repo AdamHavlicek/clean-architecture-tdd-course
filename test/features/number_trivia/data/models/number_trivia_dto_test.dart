@@ -8,14 +8,17 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
 
-  test('should be a subclass of [NumberTrivia] Entity', () async {
-    // Arrange
+  group('toDomain', () {
+    test('should be a subclass of [NumberTrivia] Entity', () async {
+      // Arrange
+      const dto = NumberTriviaDTO(number: 1, text: 'Test Text');
 
-    // Act
-    const result = NumberTriviaDTO(number: 1, text: 'Test Text');
+      // Act
+      final result = dto.toDomain();
 
-    // Assert
-    expect(result, isA<NumberTrivia>());
+      // Assert
+      expect(result, isA<NumberTrivia>());
+    });
   });
 
   group('fromJson', () {
@@ -33,7 +36,7 @@ void main() {
 
     });
 
-    test('shoud return a valid model when JSON number is an double', () {
+    test('should return a valid model when JSON number is an double', () {
       // Arrange
       final Map<String, dynamic> jsonMap = json.decode(fixture('trivia_double.json'));
 

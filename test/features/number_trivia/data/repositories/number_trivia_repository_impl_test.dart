@@ -57,17 +57,24 @@ void main() {
 
   group('getConcreteNumberTrivia', () {
     const int number = 1;
-    const numberTriviaDTO =
-        NumberTriviaDTO(text: 'test trivia', number: number);
-    const NumberTrivia numberTrivia = numberTriviaDTO;
+    const numberTriviaDTO = NumberTriviaDTO(
+      text: 'test trivia',
+      number: number,
+    );
+    final NumberTrivia numberTrivia = numberTriviaDTO.toDomain();
 
-    test('should check if the device is online', () {
+    test('should check if the device is online', () async {
       // Arrange
       // Mock
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(
+        mockRemoteDataSource.getConcreteNumberTrivia(any),
+      ).thenAnswer(
+        (_) async => numberTriviaDTO,
+      );
 
       // Act
-      repository.getConcreteNumberTrivia(number);
+      await repository.getConcreteNumberTrivia(number);
 
       // Assert
       verify(mockNetworkInfo.isConnected);
@@ -78,7 +85,7 @@ void main() {
           'should return remote data when the call to remote data source is successful',
           () async {
         // Arrange
-        const expectedResult = Right(numberTrivia);
+        final expectedResult = Right(numberTrivia);
 
         // Mock
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
@@ -96,7 +103,7 @@ void main() {
           'should cache the data locally when the call to remote data source is successful',
           () async {
         // Arrange
-        const expectedResult = Right(numberTrivia);
+        final expectedResult = Right(numberTrivia);
 
         // Mock
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
@@ -137,7 +144,7 @@ void main() {
           'should return last locally cached data when the cached data is present',
           () async {
         // Arrange
-        const expectedResult = Right(numberTrivia);
+        final expectedResult = Right(numberTrivia);
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
@@ -174,14 +181,18 @@ void main() {
   });
 
   group('getRandomNumberTrivia', () {
-    const numberTriviaDTO =
-        NumberTriviaDTO(text: 'test trivia', number: 123);
-    const NumberTrivia numberTrivia = numberTriviaDTO;
+    const numberTriviaDTO = NumberTriviaDTO(text: 'test trivia', number: 123);
+    final NumberTrivia numberTrivia = numberTriviaDTO.toDomain();
 
     test('should check if the device is online', () {
       // Arrange
       // Mock
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(
+        mockRemoteDataSource.getRandomNumberTrivia(),
+      ).thenAnswer(
+        (_) async => numberTriviaDTO,
+      );
 
       // Act
       repository.getRandomNumberTrivia();
@@ -195,7 +206,7 @@ void main() {
           'should return remote data when the call to remote data source is successful',
           () async {
         // Arrange
-        const expectedResult = Right(numberTrivia);
+        final expectedResult = Right(numberTrivia);
 
         // Mock
         when(mockRemoteDataSource.getRandomNumberTrivia())
@@ -213,7 +224,7 @@ void main() {
           'should cache the data locally when the call to remote data source is successful',
           () async {
         // Arrange
-        const expectedResult = Right(numberTrivia);
+        final expectedResult = Right(numberTrivia);
 
         // Mock
         when(mockRemoteDataSource.getRandomNumberTrivia())
@@ -254,7 +265,7 @@ void main() {
           'should return last locally cached data when the cached data is present',
           () async {
         // Arrange
-        const expectedResult = Right(numberTrivia);
+        final expectedResult = Right(numberTrivia);
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())

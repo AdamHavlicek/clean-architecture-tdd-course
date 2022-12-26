@@ -1,30 +1,27 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/data/converters.dart';
 import '../../domain/entities/number_trivia.dart';
 
-class NumberTriviaDTO extends NumberTrivia {
-  final String text;
-  final int number;
+part 'number_trivia_dto.freezed.dart';
+part 'number_trivia_dto.g.dart';
 
-  const NumberTriviaDTO({
-    required this.text,
-    required this.number
-  }) : super(
-    text: text,
-    number: number
-  );
+@freezed
+class NumberTriviaDTO with _$NumberTriviaDTO {
+  const NumberTriviaDTO._();
 
-  factory NumberTriviaDTO.fromJson(Map<String, dynamic> json) {
-    return NumberTriviaDTO(
-      text: json['text'], 
-      number: (json['number'] as num).toInt()
+  const factory NumberTriviaDTO({
+    required String text,
+    @NumberConvertor() required int number,
+  }) = _NumberTriviaDTO;
+
+  factory NumberTriviaDTO.fromJson(Map<String, dynamic> json) =>
+      _NumberTriviaDTO.fromJson(json);
+
+  NumberTrivia toDomain() {
+    return NumberTrivia(
+      text: text,
+      number: number,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'text': text,
-      'number': number
-    };
-  }
-
 }

@@ -10,7 +10,7 @@ import '../datasources/number_trivia_local_data_source.dart';
 import '../datasources/number_trivia_remote_data_source.dart';
 import '../models/number_trivia_dto.dart';
 
-typedef _ConcreteOrRandomChooser = Future<NumberTrivia> Function();
+typedef _ConcreteOrRandomChooser = Future<NumberTriviaDTO> Function();
 
 @LazySingleton(as: NumberTriviaRepository)
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
@@ -42,9 +42,9 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteTrivia = await getConcreteOrRandom();
-        localDataSource.cacheNumberTrivia(remoteTrivia as NumberTriviaDTO);
+        localDataSource.cacheNumberTrivia(remoteTrivia);
 
-        return Right(remoteTrivia);
+        return Right(remoteTrivia.toDomain());
       } on ServerException catch (e) {
         return Left(ServerFailure(e.message));
       }
@@ -53,8 +53,8 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     try {
       final localNumberTrivia = await localDataSource.getLastNumberTrivia();
 
-      return Right(localNumberTrivia);
-    } on CacheException catch(e) {
+      return Right(localNumberTrivia.toDomain());
+    } on CacheException catch (e) {
       return Left(CacheFailure(e.message));
     }
   }
