@@ -49,5 +49,5 @@ abstract class RegisterModule {
 Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  getIt.init();
+  await getIt.init();
 }
