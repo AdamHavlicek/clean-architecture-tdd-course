@@ -1,10 +1,10 @@
-import 'package:clean_architecture_tdd_course/core/usecases/usecase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/store/app_state.dart';
 import '../../../../../core/store/epic_filtered_class.dart';
+import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/get_concrete_number_trivia.dart';
 import '../../../domain/usecases/get_random_number_trivia.dart';
 import 'number_trivia_data_actions.dart';

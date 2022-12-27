@@ -5,5 +5,5 @@ import 'number_trivia_state.dart';
 
 final numberTriviaStateSelector = createSelector1<AppState, NumberTriviaState, NumberTriviaState>(
   (state) => state.numberTriviaState, 
-  ((numberTriviaState) => numberTriviaState)
+  (numberTriviaState) => numberTriviaState
 );

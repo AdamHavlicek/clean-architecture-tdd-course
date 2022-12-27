@@ -15,7 +15,7 @@ abstract class NumberTriviaRemoteDataSource {
 @LazySingleton(as: NumberTriviaRemoteDataSource)
 class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   final Client httpClient;
-  Function get concreteNumberUrl => (number) => _getBaseNumberApiUri(number);
+  Function get concreteNumberUrl => _getBaseNumberApiUri;
   Uri get randomNumberUrl => _getBaseNumberApiUri('random');
   final Map<String, String> headers = {'Content-Type': 'application/json'};
 

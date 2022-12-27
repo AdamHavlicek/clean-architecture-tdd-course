@@ -1,9 +1,9 @@
-import 'package:clean_architecture_tdd_course/core/domain/unsigned_integer.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/domain/unsigned_integer.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/entities/concrete_number_trivia_params.dart';

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:clean_architecture_tdd_course/core/error/exceptions.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/models/number_trivia_dto.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 import 'number_trivia_remote_data_source_test.mocks.dart';
@@ -45,8 +45,7 @@ void main() {
       final fixtureString = fixture('trivia.json');
 
       test(
-        '''should perform a GET request on URL with number being the endpoint 
-        & with application/json header''',
+        '''should perform a GET request on URL with number being the endpoint & with application/json header''',
         () async {
           // Arrange
           final Uri expectedUri =
@@ -94,7 +93,7 @@ void main() {
           setUpMockHttpClientNotFound404();
 
           // Act
-          result() => tDataSource.getConcreteNumberTrivia(number);
+          Future<NumberTriviaDTO> result() => tDataSource.getConcreteNumberTrivia(number);
 
           // Assert
           expect(
@@ -112,8 +111,7 @@ void main() {
       final fixtureString = fixture('trivia.json');
 
       test(
-        '''should perform a GET request on URL with number being the endpoint 
-        & with application/json header''',
+        '''should perform a GET request on URL with number being the endpoint & with application/json header''',
         () async {
           // Arrange
           final Uri expectedUri =
@@ -161,7 +159,7 @@ void main() {
           setUpMockHttpClientNotFound404();
 
           // Act
-          result() => tDataSource.getRandomNumberTrivia();
+          Future<NumberTriviaDTO> result() => tDataSource.getRandomNumberTrivia();
 
           // Assert
           expect(

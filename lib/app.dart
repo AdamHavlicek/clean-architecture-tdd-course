@@ -1,10 +1,10 @@
-import 'package:clean_architecture_tdd_course/features/number_trivia/presentation/pages/number_trivia_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'core/components/inherited_widget_access.dart';
 import 'core/store/app_state.dart';
 import 'core/store/app_store.dart';
+import 'features/number_trivia/presentation/pages/number_trivia_page.dart';
 import 'injection_container.dart';
 
 /// Wrapper for building app with theme

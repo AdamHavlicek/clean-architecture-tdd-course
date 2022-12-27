@@ -19,7 +19,7 @@ class GetConcreteNumberTrivia
   Future<Either<Failure, NumberTrivia>> call(
       ConcreteNumberTriviaParams params) async {
     return params.number.value.traverseEitherFuture(
-      (number) => repository.getConcreteNumberTrivia(number),
+      repository.getConcreteNumberTrivia,
     );
   }
 }

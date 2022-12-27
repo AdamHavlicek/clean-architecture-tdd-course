@@ -1,7 +1,7 @@
-import 'package:clean_architecture_tdd_course/core/error/failures.dart';
 import 'package:clean_architecture_tdd_course/core/domain/validators.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:clean_architecture_tdd_course/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 typedef _StringToIntValidator = Either<Failure, int> Function(String);
 

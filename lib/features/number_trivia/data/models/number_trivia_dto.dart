@@ -8,12 +8,13 @@ part 'number_trivia_dto.g.dart';
 
 @freezed
 class NumberTriviaDTO with _$NumberTriviaDTO {
-  const NumberTriviaDTO._();
 
   const factory NumberTriviaDTO({
     required String text,
     @NumberConvertor() required int number,
   }) = _NumberTriviaDTO;
+
+  const NumberTriviaDTO._();
 
   factory NumberTriviaDTO.fromJson(Map<String, dynamic> json) =>
       _NumberTriviaDTO.fromJson(json);

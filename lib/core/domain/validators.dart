@@ -36,7 +36,7 @@ Either<Failure, int> validateInteger(
   return validateNotEmptyString(
     input,
   ).flatMap(
-    (value) => validate(value),
+    validate,
   );
 }
 
@@ -52,6 +52,6 @@ Either<Failure, int> validateUnsignedInteger(String input,
   return validateInteger(
     input,
   ).flatMap(
-    (value) => validate(value),
+    validate,
   );
 }
