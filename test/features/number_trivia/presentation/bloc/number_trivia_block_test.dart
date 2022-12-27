@@ -1,4 +1,3 @@
-import 'package:clean_architecture_tdd_course/core/domain/unsigned_integer.dart';
 import 'package:clean_architecture_tdd_course/core/error/failures.dart';
 import 'package:clean_architecture_tdd_course/core/usecases/usecase.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/concrete_number_trivia_params.dart';
@@ -59,7 +58,7 @@ void main() {
       () async {
         // Arrange
         final expectedResult =
-            ConcreteNumberTriviaParams(number: UnsignedInteger(validNumberString));
+            ConcreteNumberTriviaParams(number: validNumberString);
         // Mock
         when(mockGetConcreteNumberTrivia(any)).thenAnswer(
           (_) async => const Right(numberTrivia),
