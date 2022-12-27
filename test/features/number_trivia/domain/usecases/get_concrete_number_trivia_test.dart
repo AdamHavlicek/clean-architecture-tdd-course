@@ -1,3 +1,4 @@
+import 'package:clean_architecture_tdd_course/core/domain/unsigned_integer.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/concrete_number_trivia_params.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/repositories/number_trivia_repository.dart';
@@ -14,32 +15,30 @@ void main() {
   late GetConcreteNumberTrivia tUseCase;
   late MockNumberTriviaRepository mockNumberTriviaRepository;
 
-    
   setUp(() {
     mockNumberTriviaRepository = MockNumberTriviaRepository();
 
     tUseCase = GetConcreteNumberTrivia(repository: mockNumberTriviaRepository);
   });
-  
+
   test('should get trivia for the number from the repository', () async {
     // Arrange
     const int expectedNumber = 1;
-    const expectedNumberTrivia = NumberTrivia(number: expectedNumber, text: 'test');
+    const expectedNumberTrivia =
+        NumberTrivia(number: expectedNumber, text: 'test');
 
     // Mock
-    when(
-      mockNumberTriviaRepository.getConcreteNumberTrivia(any)
-    ).thenAnswer(
-      (_) async => const Right(expectedNumberTrivia)
-    );
+    when(mockNumberTriviaRepository.getConcreteNumberTrivia(any))
+        .thenAnswer((_) async => const Right(expectedNumberTrivia));
 
     // Act
-    final result = await tUseCase(ConcreteNumberTriviaParams(number: expectedNumber.toString()));
+    final result = await tUseCase(ConcreteNumberTriviaParams(
+      number: UnsignedInteger(expectedNumber.toString()),
+    ));
 
     // Assert
     expect(result, const Right(expectedNumberTrivia));
     verify(mockNumberTriviaRepository.getConcreteNumberTrivia(expectedNumber));
     verifyNoMoreInteractions(mockNumberTriviaRepository);
   });
-
 }

@@ -1,16 +1,20 @@
-
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/domain/unsigned_integer.dart';
 
-class ConcreteNumberTriviaParams extends Equatable {
-  final UnsignedInteger number;
+part 'concrete_number_trivia_params.freezed.dart';
 
-  ConcreteNumberTriviaParams({
-    required String number
-  }) : number = UnsignedInteger(number);
+@freezed
+class ConcreteNumberTriviaParams with _$ConcreteNumberTriviaParams {
+  const ConcreteNumberTriviaParams._();
 
-  
-  @override
-  List<Object?> get props => [number];
+  const factory ConcreteNumberTriviaParams({
+    required UnsignedInteger number,
+  }) = _ConcreteNumberTriviaParams;
+
+  factory ConcreteNumberTriviaParams.empty() {
+    return ConcreteNumberTriviaParams(
+      number: UnsignedInteger(''),
+    );
+  }
 }
