@@ -1,3 +1,4 @@
+import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/concrete_number_trivia_params.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
@@ -33,7 +34,7 @@ void main() {
     );
 
     // Act
-    final result = await tUseCase(const Params(number: expectedNumber));
+    final result = await tUseCase(ConcreteNumberTriviaParams(number: expectedNumber.toString()));
 
     // Assert
     expect(result, const Right(expectedNumberTrivia));
