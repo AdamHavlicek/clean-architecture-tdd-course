@@ -38,7 +38,7 @@ dependencies:
   equatable: ^2.0.5
   # Components
   flutter_hooks: ^0.18.5+1
-  # DI
+  # Dependency Injection
   get_it: ^7.2.0
   # Functional Programming
   dartz: ^0.10.1
@@ -52,7 +52,6 @@ dependencies:
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0
   # UI
-  flutter_bloc: ^8.1.1
   # Redux
   flutter_redux: ^0.10.0
   redux_epics: ^0.15.1
