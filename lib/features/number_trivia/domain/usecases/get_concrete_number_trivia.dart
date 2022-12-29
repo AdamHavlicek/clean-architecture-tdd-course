@@ -14,7 +14,7 @@ class GetConcreteNumberTrivia
   final NumberTriviaRepository repository;
 
   GetConcreteNumberTrivia({required this.repository});
-
+  
   @override
   Future<Either<Failure, NumberTrivia>> call(
       ConcreteNumberTriviaParams params) async {

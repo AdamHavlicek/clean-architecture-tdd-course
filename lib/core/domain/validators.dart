@@ -6,9 +6,8 @@ Either<Failure, String> validateNotEmptyString(
   String? input, [
   String errorMessage = 'Must be a non-empty string',
 ]) {
-
   if (input == null) {
-    return const Left(InvalidInputFailure('Must be string')); 
+    return const Left(InvalidInputFailure('Must be string'));
   }
 
   input = input.trim();
@@ -20,11 +19,11 @@ Either<Failure, String> validateNotEmptyString(
 }
 
 Either<Failure, int> validateInteger(
-  String input, [
+  String? input, [
   String errorMessage = 'Must be an integer',
 ]) {
   Either<Failure, int> validate(String value) {
-    final int? parsedInteger = int.tryParse(input);
+    final int? parsedInteger = int.tryParse(value);
 
     if (parsedInteger == null) {
       return Left(InvalidInputFailure(errorMessage));
@@ -40,8 +39,10 @@ Either<Failure, int> validateInteger(
   );
 }
 
-Either<Failure, int> validateUnsignedInteger(String input,
-    [String errorMessage = 'Must be an unsigned integer']) {
+Either<Failure, int> validateUnsignedInteger(
+  String? input, [
+  String errorMessage = 'Must be an unsigned integer',
+]) {
   Either<Failure, int> validate(int value) {
     if (value < 0) {
       return Left(InvalidInputFailure(errorMessage));

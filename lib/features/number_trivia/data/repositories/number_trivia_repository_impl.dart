@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/extensions/global_to_either.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/number_trivia.dart';
 import '../../domain/repositories/number_trivia_repository.dart';
@@ -44,18 +45,18 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
         final remoteTrivia = await getConcreteOrRandom();
         localDataSource.cacheNumberTrivia(remoteTrivia);
 
-        return Right(remoteTrivia.toDomain());
+        return remoteTrivia.toDomain().toRight();
       } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
+        return ServerFailure(e.message).toLeft();
       }
     }
 
     try {
       final localNumberTrivia = await localDataSource.getLastNumberTrivia();
 
-      return Right(localNumberTrivia.toDomain());
+      return localNumberTrivia.toDomain().toRight();
     } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
+      return CacheFailure(e.message).toLeft();
     }
   }
 }

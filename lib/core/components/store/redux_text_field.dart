@@ -25,6 +25,7 @@ class ReduxTextField extends HookWidget {
   final int? minLines;
   final int? maxLines;
   final TextInputAction? textInputAction;
+  final AutovalidateMode? autovalidateMode;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,6 +46,7 @@ class ReduxTextField extends HookWidget {
     this.obscureText = false,
     this.focusNext = false,
     this.clearOnTap = false,
+    this.autovalidateMode = AutovalidateMode.always
   }) : super(key: key);
 
   void _setInputValue(String? input, TextEditingController controller) {
@@ -68,7 +70,9 @@ class ReduxTextField extends HookWidget {
     final focusNode = this.focusNode ?? useFocusNode();
 
     // Initial validation
-    final errorText = useState(executeValidator(controller.text));
+    final errorText = useState(
+      executeValidator(controller.text),
+    )..value = null;
 
     return StreamListener<String?>(
       stream: store.onChange.map(stateValueAccess).distinct(),
@@ -92,6 +96,7 @@ class ReduxTextField extends HookWidget {
           maxLines: maxLines ?? 1,
           onChanged: onChange,
           validator: executeValidator,
+          autovalidateMode: this.autovalidateMode,
           decoration: decoration.copyWith(errorText: errorText.value),
           onTap: () {
             if (clearOnTap) {
