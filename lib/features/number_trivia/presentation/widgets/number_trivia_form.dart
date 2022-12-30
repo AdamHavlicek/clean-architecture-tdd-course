@@ -13,6 +13,7 @@ const _borderRadius = BorderRadius.all(
 );
 
 const InputDecoration _inputDecoration = InputDecoration(
+  helperText: ' ',
   border: OutlineInputBorder(),
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(width: 1.5),
