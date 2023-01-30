@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -26,20 +26,20 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   });
 
   @override
-  Future<Either<Failure, NumberTrivia>> getConcreteNumberTrivia(
-      int number) async {
-    return _getTrivia(
-      () => remoteDataSource.getConcreteNumberTrivia(number),
-    );
+  TaskEither<Failure, NumberTrivia> getConcreteNumberTrivia(int number) {
+    return TaskEither(() => _getTrivia(
+          () => remoteDataSource.getConcreteNumberTrivia(number),
+        ));
   }
 
   @override
-  Future<Either<Failure, NumberTrivia>> getRandomNumberTrivia() async {
-    return _getTrivia(remoteDataSource.getRandomNumberTrivia);
+  TaskEither<Failure, NumberTrivia> getRandomNumberTrivia() {
+    return TaskEither(() => _getTrivia(remoteDataSource.getRandomNumberTrivia));
   }
 
   Future<Either<Failure, NumberTrivia>> _getTrivia(
-      _ConcreteOrRandomChooser getConcreteOrRandom) async {
+    _ConcreteOrRandomChooser getConcreteOrRandom,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteTrivia = await getConcreteOrRandom();

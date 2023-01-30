@@ -1,4 +1,3 @@
-
 part of 'number_trivia_form.dart';
 
 class NumberTriviaFormButtons extends StatelessWidget {

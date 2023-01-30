@@ -15,16 +15,20 @@ abstract class NumberTriviaRemoteDataSource {
 @LazySingleton(as: NumberTriviaRemoteDataSource)
 class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   final Client httpClient;
+  final Map<String, String> headers = {'Content-Type': 'application/json'};
+
   Function get concreteNumberUrl => _getBaseNumberApiUri;
   Uri get randomNumberUrl => _getBaseNumberApiUri('random');
-  final Map<String, String> headers = {'Content-Type': 'application/json'};
 
   NumberTriviaRemoteDataSourceImpl({
     required this.httpClient,
   });
 
-  Uri _getBaseNumberApiUri(String path) =>
-      Uri(scheme: 'http', host: 'numberapi.com', path: path);
+  Uri _getBaseNumberApiUri(String path) => Uri(
+        scheme: 'http',
+        host: 'numberapi.com',
+        path: path,
+      );
 
   Future<NumberTriviaDTO> _getTriviaFromUrl(
     Uri concreteOrRandomUrl,

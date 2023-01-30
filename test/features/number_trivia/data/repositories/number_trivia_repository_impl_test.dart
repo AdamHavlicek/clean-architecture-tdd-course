@@ -6,8 +6,8 @@ import 'package:clean_architecture_tdd_course/features/number_trivia/data/dataso
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/models/number_trivia_dto.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/number_trivia.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -74,7 +74,7 @@ void main() {
       );
 
       // Act
-      await repository.getConcreteNumberTrivia(number);
+      await repository.getConcreteNumberTrivia(number).run();
 
       // Assert
       verify(mockNetworkInfo.isConnected);
@@ -92,7 +92,7 @@ void main() {
             .thenAnswer((_) async => numberTriviaDTO);
 
         // Act
-        final result = await repository.getConcreteNumberTrivia(number);
+        final result = await repository.getConcreteNumberTrivia(number).run();
 
         // Assert
         verify(mockRemoteDataSource.getConcreteNumberTrivia(number));
@@ -110,7 +110,7 @@ void main() {
             .thenAnswer((_) async => numberTriviaDTO);
 
         // Act
-        final result = await repository.getConcreteNumberTrivia(number);
+        final result = await repository.getConcreteNumberTrivia(number).run();
 
         // Assert
         verify(mockRemoteDataSource.getConcreteNumberTrivia(number));
@@ -130,7 +130,7 @@ void main() {
             .thenThrow(const ServerException(expectedMessage));
 
         // Act
-        final result = await repository.getConcreteNumberTrivia(number);
+        final result = await repository.getConcreteNumberTrivia(number).run();
 
         // Assert
         verify(mockRemoteDataSource.getConcreteNumberTrivia(number));
@@ -151,7 +151,7 @@ void main() {
             .thenAnswer((_) async => numberTriviaDTO);
 
         // Act
-        final result = await repository.getConcreteNumberTrivia(number);
+        final result = await repository.getConcreteNumberTrivia(number).run();
 
         // Assert
         verifyZeroInteractions(mockRemoteDataSource);
@@ -170,7 +170,7 @@ void main() {
             .thenThrow(const CacheException(expectedMessage));
 
         // Act
-        final result = await repository.getConcreteNumberTrivia(number);
+        final result = await repository.getConcreteNumberTrivia(number).run();
 
         // Assert
         verifyZeroInteractions(mockRemoteDataSource);
@@ -195,7 +195,7 @@ void main() {
       );
 
       // Act
-      repository.getRandomNumberTrivia();
+      repository.getRandomNumberTrivia().run();
 
       // Assert
       verify(mockNetworkInfo.isConnected);
@@ -213,7 +213,7 @@ void main() {
             .thenAnswer((_) async => numberTriviaDTO);
 
         // Act
-        final result = await repository.getRandomNumberTrivia();
+        final result = await repository.getRandomNumberTrivia().run();
 
         // Assert
         verify(mockRemoteDataSource.getRandomNumberTrivia());
@@ -231,7 +231,7 @@ void main() {
             .thenAnswer((_) async => numberTriviaDTO);
 
         // Act
-        final result = await repository.getRandomNumberTrivia();
+        final result = await repository.getRandomNumberTrivia().run();
 
         // Assert
         verify(mockRemoteDataSource.getRandomNumberTrivia());
@@ -251,7 +251,7 @@ void main() {
             .thenThrow(const ServerException(expectedMessage));
 
         // Act
-        final result = await repository.getRandomNumberTrivia();
+        final result = await repository.getRandomNumberTrivia().run();
 
         // Assert
         verify(mockRemoteDataSource.getRandomNumberTrivia());
@@ -272,7 +272,7 @@ void main() {
             .thenAnswer((_) async => numberTriviaDTO);
 
         // Act
-        final result = await repository.getRandomNumberTrivia();
+        final result = await repository.getRandomNumberTrivia().run();
 
         // Assert
         verifyZeroInteractions(mockRemoteDataSource);
@@ -291,7 +291,7 @@ void main() {
             .thenThrow(const CacheException(expectedMessage));
 
         // Act
-        final result = await repository.getRandomNumberTrivia();
+        final result = await repository.getRandomNumberTrivia().run();
 
         // Assert
         verifyZeroInteractions(mockRemoteDataSource);

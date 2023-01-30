@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../error/failures.dart';
 
@@ -15,7 +15,7 @@ Either<Failure, String> validateNotEmptyString(
     return Left(InvalidInputFailure(errorMessage));
   }
 
-  return right(input);
+  return Right(input);
 }
 
 Either<Failure, int> validateInteger(

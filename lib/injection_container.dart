@@ -16,7 +16,6 @@ final getIt = GetIt.instance;
 
 @module
 abstract class RegisterModule {
-
   @lazySingleton
   EpicMiddleware<AppState> get epicMiddleware {
     return EpicMiddleware<AppState>(

@@ -36,9 +36,7 @@ class App extends StatelessWidget {
         store: store,
         child: MaterialApp(
           title: 'Number Trivia',
-          theme: ThemeData(
-            primarySwatch: Colors.green
-          ),
+          theme: ThemeData(primarySwatch: Colors.green),
           debugShowCheckedModeBanner: false,
           home: const NumberTriviaPage(),
         ),

@@ -30,7 +30,8 @@ void main() {
     );
   }
 
-  void setUpMockHttpClientNotFound404({String responseString = 'Something went wrong'}) {
+  void setUpMockHttpClientNotFound404(
+      {String responseString = 'Something went wrong'}) {
     when(
       mockHttpClient.get(any, headers: anyNamed('headers')),
     ).thenAnswer(
@@ -93,7 +94,8 @@ void main() {
           setUpMockHttpClientNotFound404();
 
           // Act
-          Future<NumberTriviaDTO> result() => tDataSource.getConcreteNumberTrivia(number);
+          Future<NumberTriviaDTO> result() =>
+              tDataSource.getConcreteNumberTrivia(number);
 
           // Assert
           expect(
@@ -159,7 +161,8 @@ void main() {
           setUpMockHttpClientNotFound404();
 
           // Act
-          Future<NumberTriviaDTO> result() => tDataSource.getRandomNumberTrivia();
+          Future<NumberTriviaDTO> result() =>
+              tDataSource.getRandomNumberTrivia();
 
           // Assert
           expect(

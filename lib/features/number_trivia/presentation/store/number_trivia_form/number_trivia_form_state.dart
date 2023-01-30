@@ -6,7 +6,6 @@ part 'number_trivia_form_state.freezed.dart';
 
 @freezed
 class NumberTriviaFormState with _$NumberTriviaFormState {
-
   const factory NumberTriviaFormState({
     required ConcreteNumberTriviaParams params,
   }) = _NumberTriviaFormState;
@@ -16,5 +15,4 @@ class NumberTriviaFormState with _$NumberTriviaFormState {
   static NumberTriviaFormState initial = NumberTriviaFormState(
     params: ConcreteNumberTriviaParams.empty(),
   );
-
 }

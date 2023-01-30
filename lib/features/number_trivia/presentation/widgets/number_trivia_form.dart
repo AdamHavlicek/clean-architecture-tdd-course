@@ -54,6 +54,16 @@ class NumberTriviaForm extends StatelessWidget {
           decoration: _inputDecoration.copyWith(
             labelText: 'Number',
           ),
+          onComplete: () {
+            final state = numberTriviaFormStateSelector(store.state);
+            if (!state.params.number.isValid) {
+              return;
+            }
+
+            store.dispatch(
+              NumberTriviaDataAction.fetchConcrete(state.params),
+            );
+          },
         ),
         const SizedBox(
           height: 10,

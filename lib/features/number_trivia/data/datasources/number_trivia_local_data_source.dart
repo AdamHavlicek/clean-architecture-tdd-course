@@ -28,7 +28,8 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
       throw const CacheException('Cache is empty');
     }
 
-    final cachedNumberTriviaDto = NumberTriviaDTO.fromJson(json.decode(jsonString));
+    final cachedNumberTriviaDto =
+        NumberTriviaDTO.fromJson(json.decode(jsonString));
 
     return Future.value(cachedNumberTriviaDto);
   }

@@ -6,7 +6,6 @@ part 'concrete_number_trivia_params.freezed.dart';
 
 @freezed
 class ConcreteNumberTriviaParams with _$ConcreteNumberTriviaParams {
-
   const factory ConcreteNumberTriviaParams({
     required UnsignedInteger number,
   }) = _ConcreteNumberTriviaParams;

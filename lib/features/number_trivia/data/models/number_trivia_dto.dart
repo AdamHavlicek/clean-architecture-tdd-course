@@ -8,7 +8,6 @@ part 'number_trivia_dto.g.dart';
 
 @freezed
 class NumberTriviaDTO with _$NumberTriviaDTO {
-
   const factory NumberTriviaDTO({
     required String text,
     @NumberConvertor() required int number,
