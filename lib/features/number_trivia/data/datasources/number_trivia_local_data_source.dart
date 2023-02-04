@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,21 +24,44 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
 
   @override
   Future<NumberTriviaDTO> getLastNumberTrivia() {
-    final jsonString = sharedPreferences.getString(cacheKey);
-    if (jsonString == null) {
-      throw const CacheException('Cache is empty');
-    }
+    return Either<Exception, String>.fromNullable(
+      sharedPreferences.getString(cacheKey),
+      () => const CacheException('Cache is empty'),
+    )
+        .map(
+          (jsonString) => NumberTriviaDTO.fromJson(json.decode(jsonString)),
+        )
+        .fold(
+          (exception) => throw exception,
+          Future.value,
+        );
 
-    final cachedNumberTriviaDto =
-        NumberTriviaDTO.fromJson(json.decode(jsonString));
-
-    return Future.value(cachedNumberTriviaDto);
+    // final jsonString = sharedPreferences.getString(cacheKey);
+    // if (jsonString == null) {
+    //   throw const CacheException('Cache is empty');
+    // }
+    //
+    // final cachedNumberTriviaDto =
+    //     NumberTriviaDTO.fromJson(json.decode(jsonString));
+    //
+    // return Future.value(cachedNumberTriviaDto);
   }
 
   @override
   Future<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache) async {
-    final jsonString = json.encode(triviaToCache.toJson());
+    await Task.of(
+      json.encode(triviaToCache.toJson()),
+    )
+        .flatMap(
+          (jsonString) => Task(
+            () => sharedPreferences.setString(cacheKey, jsonString),
+          ),
+        )
+        .run();
 
-    await sharedPreferences.setString(cacheKey, jsonString);
+    return;
+    // final jsonString = json.encode(triviaToCache.toJson());
+    //
+    // await sharedPreferences.setString(cacheKey, jsonString);
   }
 }

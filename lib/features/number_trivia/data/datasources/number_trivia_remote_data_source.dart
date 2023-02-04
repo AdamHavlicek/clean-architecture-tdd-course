@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 
@@ -33,14 +34,37 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   Future<NumberTriviaDTO> _getTriviaFromUrl(
     Uri concreteOrRandomUrl,
   ) async {
-    final response =
-        await httpClient.get(concreteOrRandomUrl, headers: headers);
+    final triviaOrException = await TaskEither<Exception, Response>.tryCatch(
+            () => httpClient.get(
+                  concreteOrRandomUrl,
+                  headers: headers,
+                ),
+            (err, stacktrace) => err as Exception)
+        .chainEither(
+          (response) => Either.fromPredicate(
+              response,
+              (r) => r.statusCode == 200,
+              (r) => const ServerException('Invalid Server Response')),
+        )
+        .map(
+          (r) => NumberTriviaDTO.fromJson(json.decode(r.body)),
+        )
+        .run();
 
-    if (response.statusCode != 200) {
-      throw const ServerException('Invalid Server Response');
-    }
+    return triviaOrException.fold(
+      (l) => throw l,
+      (r) => r,
+    );
 
-    return NumberTriviaDTO.fromJson(json.decode(response.body));
+    // final response =
+    //     await httpClient.get(concreteOrRandomUrl, headers: headers);
+    //
+    //
+    // if (response.statusCode != 200) {
+    //   throw const ServerException('Invalid Server Response');
+    // }
+    //
+    // return NumberTriviaDTO.fromJson(json.decode(response.body));
   }
 
   @override

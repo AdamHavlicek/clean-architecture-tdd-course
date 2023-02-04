@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:clean_architecture_tdd_course/core/domain/unsigned_integer.dart';
 import 'package:clean_architecture_tdd_course/core/error/failures.dart';
-import 'package:clean_architecture_tdd_course/core/extensions/global_to_either.dart';
 import 'package:clean_architecture_tdd_course/core/usecases/usecase.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/concrete_number_trivia_params.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/number_trivia.dart';
@@ -13,6 +12,7 @@ import 'package:clean_architecture_tdd_course/features/number_trivia/presentatio
 import 'package:clean_architecture_tdd_course/features/number_trivia/presentation/store/number_trivia_data/number_trivia_data_reducers.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/presentation/store/number_trivia_data/number_trivia_data_state.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
@@ -82,7 +82,7 @@ void main() {
 
         // Mock
         when(mockGetConcreteNumberTrivia(any)).thenAnswer(
-          (_) async => numberTrivia.toRight(),
+          (_) async => const Right(numberTrivia),
         );
 
         // Act
@@ -112,7 +112,7 @@ void main() {
 
         // Mock
         when(mockGetConcreteNumberTrivia(any)).thenAnswer(
-          (_) async => numberTrivia.toRight(),
+          (_) async => const Right(numberTrivia),
         );
 
         // Act
@@ -144,7 +144,7 @@ void main() {
 
         // Mock
         when(mockGetConcreteNumberTrivia(any)).thenAnswer(
-          (_) async => expectedFailure.toLeft(),
+          (_) async => const Left(expectedFailure),
         );
 
         // Act
@@ -176,7 +176,7 @@ void main() {
 
         // Mock
         when(mockGetConcreteNumberTrivia(any)).thenAnswer(
-          (_) async => expectedFailure.toLeft(),
+          (_) async => const Left(expectedFailure),
         );
 
         // Act
@@ -205,7 +205,7 @@ void main() {
 
         // Mock
         when(mockGetRandomNumberTrivia(any)).thenAnswer(
-          (_) async => numberTrivia.toRight(),
+          (_) async => const Right(numberTrivia),
         );
 
         // Act
@@ -231,7 +231,7 @@ void main() {
 
         // Mock
         when(mockGetRandomNumberTrivia(any)).thenAnswer(
-          (_) async => numberTrivia.toRight(),
+          (_) async => const Right(numberTrivia),
         );
 
         // Act
@@ -258,7 +258,7 @@ void main() {
 
         // Mock
         when(mockGetRandomNumberTrivia(any)).thenAnswer(
-          (_) async => expectedFailure.toLeft(),
+          (_) async => const Left(expectedFailure),
         );
 
         // Act
@@ -285,7 +285,7 @@ void main() {
 
         // Mock
         when(mockGetRandomNumberTrivia(any)).thenAnswer(
-          (_) async => expectedFailure.toLeft(),
+          (_) async => const Left(expectedFailure),
         );
 
         // Act

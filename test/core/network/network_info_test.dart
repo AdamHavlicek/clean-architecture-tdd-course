@@ -33,7 +33,7 @@ void main() {
             .thenAnswer((_) => expectedResult);
 
         // Act
-        final result = tNetworkInfoImpl.isConnected;
+        final result = tNetworkInfoImpl.isConnected.run();
 
         // Assert
         verify(mockInternetConnectionChecker.hasConnection).called(1);

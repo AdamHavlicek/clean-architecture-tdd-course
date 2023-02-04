@@ -38,7 +38,7 @@ void main() {
   void runTestsOnline(Function body) {
     group('devices is online', () {
       setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockNetworkInfo.isConnected).thenReturn(Task.of(true));
       });
 
       body();
@@ -48,7 +48,7 @@ void main() {
   void runTestsOffline(Function body) {
     group('devices is offline', () {
       setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(mockNetworkInfo.isConnected).thenReturn(Task.of(false));
       });
 
       body();
@@ -66,7 +66,7 @@ void main() {
     test('should check if the device is online', () async {
       // Arrange
       // Mock
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockNetworkInfo.isConnected).thenReturn(Task.of(true));
       when(
         mockRemoteDataSource.getConcreteNumberTrivia(any),
       ).thenAnswer(
@@ -187,7 +187,7 @@ void main() {
     test('should check if the device is online', () {
       // Arrange
       // Mock
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockNetworkInfo.isConnected).thenReturn(Task.of(true));
       when(
         mockRemoteDataSource.getRandomNumberTrivia(),
       ).thenAnswer(
