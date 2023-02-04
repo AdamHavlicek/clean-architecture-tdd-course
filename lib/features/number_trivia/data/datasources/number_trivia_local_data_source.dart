@@ -8,9 +8,9 @@ import '../../../../core/error/exceptions.dart';
 import '../models/number_trivia_dto.dart';
 
 abstract class NumberTriviaLocalDataSource {
-  Future<NumberTriviaDTO> getLastNumberTrivia();
+  IOEither<Exception, NumberTriviaDTO> getLastNumberTrivia();
 
-  Future<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache);
+  Task<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache);
 }
 
 @LazySingleton(as: NumberTriviaLocalDataSource)
@@ -23,18 +23,13 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   });
 
   @override
-  Future<NumberTriviaDTO> getLastNumberTrivia() {
-    return Either<Exception, String>.fromNullable(
+  IOEither<Exception, NumberTriviaDTO> getLastNumberTrivia() {
+    return IOEither<Exception, String>.fromNullable(
       sharedPreferences.getString(cacheKey),
       () => const CacheException('Cache is empty'),
-    )
-        .map(
-          (jsonString) => NumberTriviaDTO.fromJson(json.decode(jsonString)),
-        )
-        .fold(
-          (exception) => throw exception,
-          Future.value,
-        );
+    ).map(
+      (jsonString) => NumberTriviaDTO.fromJson(json.decode(jsonString)),
+    );
 
     // final jsonString = sharedPreferences.getString(cacheKey);
     // if (jsonString == null) {
@@ -48,18 +43,15 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   }
 
   @override
-  Future<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache) async {
-    await Task.of(
+  Task<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache) {
+    return Task.of(
       json.encode(triviaToCache.toJson()),
-    )
-        .flatMap(
-          (jsonString) => Task(
-            () => sharedPreferences.setString(cacheKey, jsonString),
-          ),
-        )
-        .run();
+    ).flatMap(
+      (jsonString) => Task(
+        () => sharedPreferences.setString(cacheKey, jsonString),
+      ),
+    );
 
-    return;
     // final jsonString = json.encode(triviaToCache.toJson());
     //
     // await sharedPreferences.setString(cacheKey, jsonString);

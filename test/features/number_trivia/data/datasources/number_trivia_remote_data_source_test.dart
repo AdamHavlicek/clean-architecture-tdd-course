@@ -59,7 +59,7 @@ void main() {
           setUpMockHttpClientSuccess200(fixtureString);
 
           // Act
-          await tDataSource.getConcreteNumberTrivia(number);
+          await tDataSource.getConcreteNumberTrivia(number).run();
 
           // Assert
           verify(
@@ -74,12 +74,16 @@ void main() {
           // Arrange
           final expectedResult =
               NumberTriviaDTO.fromJson(json.decode(fixtureString));
+          final runner = tDataSource.getConcreteNumberTrivia(number).run();
 
           // Mock
           setUpMockHttpClientSuccess200(fixtureString);
 
           // Act
-          final result = await tDataSource.getConcreteNumberTrivia(number);
+          final result = (await runner).fold(
+            (_) => fail('should return [NumberTriviaDTO]'),
+            (r) => r,
+          );
 
           // Assert
           expect(result, equals(expectedResult));
@@ -90,17 +94,20 @@ void main() {
         'should throw [ServerException] when the response code is 404 or other',
         () async {
           // Arrange
+          final runner = tDataSource.getConcreteNumberTrivia(number).run();
           // Mock
           setUpMockHttpClientNotFound404();
 
           // Act
-          Future<NumberTriviaDTO> result() =>
-              tDataSource.getConcreteNumberTrivia(number);
+          final result = (await runner).fold(
+            (exception) => exception,
+            (_) => fail('should return [ServerException]'),
+          );
 
           // Assert
           expect(
             result,
-            throwsA(const TypeMatcher<ServerException>()),
+            equals(const TypeMatcher<ServerException>()),
           );
         },
       );
@@ -126,7 +133,7 @@ void main() {
           setUpMockHttpClientSuccess200(fixtureString);
 
           // Act
-          await tDataSource.getRandomNumberTrivia();
+          await tDataSource.getRandomNumberTrivia().run();
 
           // Assert
           verify(
@@ -141,12 +148,16 @@ void main() {
           // Arrange
           final expectedResult =
               NumberTriviaDTO.fromJson(json.decode(fixtureString));
+          final runner = tDataSource.getRandomNumberTrivia().run();
 
           // Mock
           setUpMockHttpClientSuccess200(fixtureString);
 
           // Act
-          final result = await tDataSource.getRandomNumberTrivia();
+          final result = (await runner).fold(
+            (_) => fail('should return [NumberTriviaDTO]'),
+            (r) => r,
+          );
 
           // Assert
           expect(result, equals(expectedResult));
@@ -157,17 +168,20 @@ void main() {
         'should throw [ServerException] when the response code is 404 or other',
         () async {
           // Arrange
+          final runner = tDataSource.getRandomNumberTrivia().run();
           // Mock
           setUpMockHttpClientNotFound404();
 
           // Act
-          Future<NumberTriviaDTO> result() =>
-              tDataSource.getRandomNumberTrivia();
+          final result = (await runner).fold(
+            (exception) => exception,
+            (_) => fail('should return [ServerException]'),
+          );
 
           // Assert
           expect(
             result,
-            throwsA(const TypeMatcher<ServerException>()),
+            equals(const TypeMatcher<ServerException>()),
           );
         },
       );

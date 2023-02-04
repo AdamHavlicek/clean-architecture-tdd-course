@@ -8,15 +8,17 @@ import '../../../../core/error/exceptions.dart';
 import '../models/number_trivia_dto.dart';
 
 abstract class NumberTriviaRemoteDataSource {
-  Future<NumberTriviaDTO> getConcreteNumberTrivia(int number);
+  TaskEither<Exception, NumberTriviaDTO> getConcreteNumberTrivia(int number);
 
-  Future<NumberTriviaDTO> getRandomNumberTrivia();
+  TaskEither<Exception, NumberTriviaDTO> getRandomNumberTrivia();
 }
 
 @LazySingleton(as: NumberTriviaRemoteDataSource)
 class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   final Client httpClient;
   final Map<String, String> headers = {'Content-Type': 'application/json'};
+  final String host = 'numberapi.com';
+  final String scheme = 'http';
 
   Function get concreteNumberUrl => _getBaseNumberApiUri;
   Uri get randomNumberUrl => _getBaseNumberApiUri('random');
@@ -26,35 +28,30 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   });
 
   Uri _getBaseNumberApiUri(String path) => Uri(
-        scheme: 'http',
-        host: 'numberapi.com',
+        scheme: scheme,
+        host: host,
         path: path,
       );
 
-  Future<NumberTriviaDTO> _getTriviaFromUrl(
+  TaskEither<Exception, NumberTriviaDTO> _getTriviaFromUrl(
     Uri concreteOrRandomUrl,
-  ) async {
-    final triviaOrException = await TaskEither<Exception, Response>.tryCatch(
+  ) {
+    return TaskEither<Exception, Response>.tryCatch(
             () => httpClient.get(
                   concreteOrRandomUrl,
                   headers: headers,
                 ),
-            (err, stacktrace) => err as Exception)
+            (err, __) => err as Exception)
         .chainEither(
           (response) => Either.fromPredicate(
-              response,
-              (r) => r.statusCode == 200,
-              (r) => const ServerException('Invalid Server Response')),
+            response,
+            (response) => response.statusCode == 200,
+            (_) => const ServerException('Invalid Server Response'),
+          ),
         )
         .map(
           (r) => NumberTriviaDTO.fromJson(json.decode(r.body)),
-        )
-        .run();
-
-    return triviaOrException.fold(
-      (l) => throw l,
-      (r) => r,
-    );
+        );
 
     // final response =
     //     await httpClient.get(concreteOrRandomUrl, headers: headers);
@@ -68,10 +65,10 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   }
 
   @override
-  Future<NumberTriviaDTO> getConcreteNumberTrivia(int number) =>
+  TaskEither<Exception, NumberTriviaDTO> getConcreteNumberTrivia(int number) =>
       _getTriviaFromUrl(concreteNumberUrl('$number'));
 
   @override
-  Future<NumberTriviaDTO> getRandomNumberTrivia() =>
+  TaskEither<Exception, NumberTriviaDTO> getRandomNumberTrivia() =>
       _getTriviaFromUrl(randomNumberUrl);
 }

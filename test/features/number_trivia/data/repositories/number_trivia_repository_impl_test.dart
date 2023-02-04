@@ -69,9 +69,11 @@ void main() {
       when(mockNetworkInfo.isConnected).thenReturn(Task.of(true));
       when(
         mockRemoteDataSource.getConcreteNumberTrivia(any),
-      ).thenAnswer(
-        (_) async => numberTriviaDTO,
+      ).thenReturn(
+        TaskEither.right(numberTriviaDTO),
       );
+      when(mockLocalDataSource.cacheNumberTrivia(any))
+          .thenReturn(Task.of(null));
 
       // Act
       await repository.getConcreteNumberTrivia(number).run();
@@ -89,7 +91,9 @@ void main() {
 
         // Mock
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
-            .thenAnswer((_) async => numberTriviaDTO);
+            .thenReturn(TaskEither.right(numberTriviaDTO));
+        when(mockLocalDataSource.cacheNumberTrivia(any))
+            .thenReturn(Task.of(null));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -107,7 +111,9 @@ void main() {
 
         // Mock
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
-            .thenAnswer((_) async => numberTriviaDTO);
+            .thenReturn(TaskEither.right(numberTriviaDTO));
+        when(mockLocalDataSource.cacheNumberTrivia(any))
+            .thenReturn(Task.of(null));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -126,8 +132,8 @@ void main() {
         const expectedResult = Left(ServerFailure(expectedMessage));
 
         // Mock
-        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
-            .thenThrow(const ServerException(expectedMessage));
+        when(mockRemoteDataSource.getConcreteNumberTrivia(any)).thenReturn(
+            TaskEither.left(const ServerException(expectedMessage)));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -148,7 +154,7 @@ void main() {
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
-            .thenAnswer((_) async => numberTriviaDTO);
+            .thenReturn(IOEither.right(numberTriviaDTO));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -167,7 +173,7 @@ void main() {
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
-            .thenThrow(const CacheException(expectedMessage));
+            .thenReturn(IOEither.left(const CacheException(expectedMessage)));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -190,8 +196,8 @@ void main() {
       when(mockNetworkInfo.isConnected).thenReturn(Task.of(true));
       when(
         mockRemoteDataSource.getRandomNumberTrivia(),
-      ).thenAnswer(
-        (_) async => numberTriviaDTO,
+      ).thenReturn(
+        TaskEither.right(numberTriviaDTO),
       );
 
       // Act
@@ -210,7 +216,9 @@ void main() {
 
         // Mock
         when(mockRemoteDataSource.getRandomNumberTrivia())
-            .thenAnswer((_) async => numberTriviaDTO);
+            .thenReturn(TaskEither.right(numberTriviaDTO));
+        when(mockLocalDataSource.cacheNumberTrivia(any))
+            .thenReturn(Task.of(null));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
@@ -228,7 +236,9 @@ void main() {
 
         // Mock
         when(mockRemoteDataSource.getRandomNumberTrivia())
-            .thenAnswer((_) async => numberTriviaDTO);
+            .thenReturn(TaskEither.right(numberTriviaDTO));
+        when(mockLocalDataSource.cacheNumberTrivia(any))
+            .thenReturn(Task.of(null));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
@@ -247,8 +257,8 @@ void main() {
         const expectedResult = Left(ServerFailure(expectedMessage));
 
         // Mock
-        when(mockRemoteDataSource.getRandomNumberTrivia())
-            .thenThrow(const ServerException(expectedMessage));
+        when(mockRemoteDataSource.getRandomNumberTrivia()).thenReturn(
+            TaskEither.left(const ServerException(expectedMessage)));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
@@ -269,7 +279,7 @@ void main() {
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
-            .thenAnswer((_) async => numberTriviaDTO);
+            .thenReturn(IOEither.right(numberTriviaDTO));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
@@ -288,7 +298,7 @@ void main() {
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
-            .thenThrow(const CacheException(expectedMessage));
+            .thenReturn(IOEither.left(const CacheException(expectedMessage)));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();

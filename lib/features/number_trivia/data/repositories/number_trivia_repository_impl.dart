@@ -10,7 +10,8 @@ import '../datasources/number_trivia_local_data_source.dart';
 import '../datasources/number_trivia_remote_data_source.dart';
 import '../models/number_trivia_dto.dart';
 
-typedef _ConcreteOrRandomChooser = Future<NumberTriviaDTO> Function();
+typedef _ConcreteOrRandomChooser = TaskEither<Exception, NumberTriviaDTO>
+    Function();
 
 @LazySingleton(as: NumberTriviaRepository)
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
@@ -37,10 +38,10 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   }
 
   TaskEither<Failure, NumberTrivia> _hitCache() {
-    return TaskEither.tryCatch(
-      localDataSource.getLastNumberTrivia,
-      (err, __) => CacheFailure((err as CacheException).message),
-    ).map(
+    return TaskEither.fromEither(
+      localDataSource.getLastNumberTrivia().run(),
+    ).bimap(
+      (exception) => CacheFailure((exception as CacheException).message),
       (triviaDto) => triviaDto.toDomain(),
     );
   }
@@ -48,12 +49,15 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   TaskEither<Failure, NumberTrivia> _hitNetwork(
     _ConcreteOrRandomChooser getConcreteOrRandom,
   ) {
-    return TaskEither.tryCatch(
-      getConcreteOrRandom,
-      (err, __) => ServerFailure((err as ServerException).message),
-    )
+    return getConcreteOrRandom()
+        .bimap(
+          (exception) => ServerFailure(
+            (exception as ServerException).message,
+          ),
+          (triviaDto) => triviaDto,
+        )
         .chainFirst(
-          (triviaDto) => TaskEither.of(
+          (triviaDto) => TaskEither.fromTask(
             localDataSource.cacheNumberTrivia(triviaDto),
           ),
         )

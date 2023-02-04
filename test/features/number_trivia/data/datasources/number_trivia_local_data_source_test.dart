@@ -4,6 +4,7 @@ import 'package:clean_architecture_tdd_course/core/error/exceptions.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/models/number_trivia_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,8 +38,10 @@ void main() {
           final String fixtureTrivia = fixture('trivia_cached.json');
 
           const expectedKey = 'CACHED_NUMBER_TRIVIA';
-          final expectedResult = NumberTriviaDTO.fromJson(
-            json.decode(fixtureTrivia),
+          final expectedResult = Either.right(
+            NumberTriviaDTO.fromJson(
+              json.decode(fixtureTrivia),
+            ),
           );
 
           // Mock
@@ -49,7 +52,7 @@ void main() {
           );
 
           // Act
-          final result = await tDataSource.getLastNumberTrivia();
+          final result = tDataSource.getLastNumberTrivia().run();
 
           // Assert
           verify(mockSharedPreferences.getString(expectedKey)).called(1);
@@ -69,10 +72,13 @@ void main() {
           );
 
           // Act
-          Future<NumberTriviaDTO> result() => tDataSource.getLastNumberTrivia();
+          final Exception result = tDataSource.getLastNumberTrivia().run().fold(
+                (exception) => exception,
+                (_) => fail('should return [CacheException]'),
+              );
 
           // Assert
-          expect(result, throwsA(const TypeMatcher<CacheException>()));
+          expect(result, equals(const TypeMatcher<CacheException>()));
         },
       );
     },
@@ -97,7 +103,7 @@ void main() {
           );
 
           // Act
-          await tDataSource.cacheNumberTrivia(numberTriviaDTO);
+          await tDataSource.cacheNumberTrivia(numberTriviaDTO).run();
 
           // Assert
           verify(mockSharedPreferences.setString(expectedKey, expectedValue))
