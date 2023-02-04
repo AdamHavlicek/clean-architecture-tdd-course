@@ -10,7 +10,7 @@ import '../models/number_trivia_dto.dart';
 abstract class NumberTriviaLocalDataSource {
   IOEither<Exception, NumberTriviaDTO> getLastNumberTrivia();
 
-  Task<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache);
+  Task<Unit> cacheNumberTrivia(NumberTriviaDTO triviaToCache);
 }
 
 @LazySingleton(as: NumberTriviaLocalDataSource)
@@ -43,14 +43,14 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   }
 
   @override
-  Task<void> cacheNumberTrivia(NumberTriviaDTO triviaToCache) {
+  Task<Unit> cacheNumberTrivia(NumberTriviaDTO triviaToCache) {
     return Task.of(
       json.encode(triviaToCache.toJson()),
     ).flatMap(
       (jsonString) => Task(
         () => sharedPreferences.setString(cacheKey, jsonString),
       ),
-    );
+    ).map((_) => unit);
 
     // final jsonString = json.encode(triviaToCache.toJson());
     //

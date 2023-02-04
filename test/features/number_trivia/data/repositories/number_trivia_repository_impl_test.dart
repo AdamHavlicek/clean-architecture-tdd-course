@@ -73,7 +73,7 @@ void main() {
         TaskEither.right(numberTriviaDTO),
       );
       when(mockLocalDataSource.cacheNumberTrivia(any))
-          .thenReturn(Task.of(null));
+          .thenReturn(Task.of(unit));
 
       // Act
       await repository.getConcreteNumberTrivia(number).run();
@@ -93,7 +93,7 @@ void main() {
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
             .thenReturn(TaskEither.right(numberTriviaDTO));
         when(mockLocalDataSource.cacheNumberTrivia(any))
-            .thenReturn(Task.of(null));
+            .thenReturn(Task.of(unit));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -113,7 +113,7 @@ void main() {
         when(mockRemoteDataSource.getConcreteNumberTrivia(any))
             .thenReturn(TaskEither.right(numberTriviaDTO));
         when(mockLocalDataSource.cacheNumberTrivia(any))
-            .thenReturn(Task.of(null));
+            .thenReturn(Task.of(unit));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -199,6 +199,8 @@ void main() {
       ).thenReturn(
         TaskEither.right(numberTriviaDTO),
       );
+      when(mockLocalDataSource.cacheNumberTrivia(any))
+          .thenReturn(Task.of(unit));
 
       // Act
       repository.getRandomNumberTrivia().run();
@@ -218,7 +220,7 @@ void main() {
         when(mockRemoteDataSource.getRandomNumberTrivia())
             .thenReturn(TaskEither.right(numberTriviaDTO));
         when(mockLocalDataSource.cacheNumberTrivia(any))
-            .thenReturn(Task.of(null));
+            .thenReturn(Task.of(unit));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
@@ -238,7 +240,7 @@ void main() {
         when(mockRemoteDataSource.getRandomNumberTrivia())
             .thenReturn(TaskEither.right(numberTriviaDTO));
         when(mockLocalDataSource.cacheNumberTrivia(any))
-            .thenReturn(Task.of(null));
+            .thenReturn(Task.of(unit));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
