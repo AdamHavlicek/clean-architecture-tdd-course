@@ -4,6 +4,7 @@ import 'package:clean_architecture_tdd_course/core/error/exceptions.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/data/models/number_trivia_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -82,7 +83,7 @@ void main() {
           // Act
           final result = (await runner).fold(
             (_) => fail('should return [NumberTriviaDTO]'),
-            (r) => r,
+            id,
           );
 
           // Assert
@@ -100,7 +101,7 @@ void main() {
 
           // Act
           final result = (await runner).fold(
-            (exception) => exception,
+            id,
             (_) => fail('should return [ServerException]'),
           );
 
@@ -156,7 +157,7 @@ void main() {
           // Act
           final result = (await runner).fold(
             (_) => fail('should return [NumberTriviaDTO]'),
-            (r) => r,
+            id,
           );
 
           // Assert
@@ -174,7 +175,7 @@ void main() {
 
           // Act
           final result = (await runner).fold(
-            (exception) => exception,
+            id,
             (_) => fail('should return [ServerException]'),
           );
 

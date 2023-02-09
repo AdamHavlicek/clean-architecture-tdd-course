@@ -54,7 +54,7 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
           (exception) => ServerFailure(
             (exception as ServerException).message,
           ),
-          (triviaDto) => triviaDto,
+          id
         )
         .chainFirst(
           (triviaDto) => TaskEither.fromTask(

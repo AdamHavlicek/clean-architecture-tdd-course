@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/utils/task_either_utils.dart';
 import '../models/number_trivia_dto.dart';
 
 abstract class NumberTriviaRemoteDataSource {
@@ -36,12 +37,12 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   TaskEither<Exception, NumberTriviaDTO> _getTriviaFromUrl(
     Uri concreteOrRandomUrl,
   ) {
-    return TaskEither<Exception, Response>.tryCatch(
+    return TaskEither.tryCatch(
             () => httpClient.get(
                   concreteOrRandomUrl,
                   headers: headers,
                 ),
-            (err, __) => err as Exception)
+            (err, __) => ServerException('Unexpected Exception $err'))
         .chainEither(
           (response) => Either.fromPredicate(
             response,

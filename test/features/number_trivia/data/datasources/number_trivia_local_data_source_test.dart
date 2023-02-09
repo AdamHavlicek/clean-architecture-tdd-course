@@ -73,7 +73,7 @@ void main() {
 
           // Act
           final Exception result = tDataSource.getLastNumberTrivia().run().fold(
-                (exception) => exception,
+                id,
                 (_) => fail('should return [CacheException]'),
               );
 
