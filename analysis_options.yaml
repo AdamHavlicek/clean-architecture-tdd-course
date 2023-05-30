@@ -156,7 +156,6 @@ linter:
     prefer_constructors_over_static_methods: true
     prefer_contains: true
     prefer_double_quotes: false
-    prefer_equal_for_default_values: true
     # Build methods usually have only single return but
     # need the bloc body due to formatting
     prefer_expression_function_bodies: false

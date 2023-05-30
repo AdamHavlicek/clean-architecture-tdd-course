@@ -5,7 +5,6 @@ import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/utils/task_either_utils.dart';
 import '../models/number_trivia_dto.dart';
 
 abstract class NumberTriviaRemoteDataSource {

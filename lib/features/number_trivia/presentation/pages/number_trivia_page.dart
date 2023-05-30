@@ -18,11 +18,11 @@ class NumberTriviaPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return Center(
+    return const Center(
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
         child: Column(
-          children: const [
+          children: [
             SizedBox(
               height: 10,
             ),
