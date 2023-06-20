@@ -23,7 +23,7 @@ void main() {
   group(
     'isConnected',
     () {
-      test('should forward the call to [DataConnectionChecker.hasConnection]',
+      test('should forward the call to [InternetConnectionChecker.hasConnection]',
           () async {
         // Arrange
         final Future<bool> expectedResult = Future.value(true);
@@ -37,7 +37,7 @@ void main() {
 
         // Assert
         verify(mockInternetConnectionChecker.hasConnection).called(1);
-        expect(result, expectedResult);
+        expect(result, equals(expectedResult));
       });
     },
   );

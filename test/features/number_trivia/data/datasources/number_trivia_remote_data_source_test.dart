@@ -31,8 +31,9 @@ void main() {
     );
   }
 
-  void setUpMockHttpClientNotFound404(
-      {String responseString = 'Something went wrong'}) {
+  void setUpMockHttpClientNotFound404({
+    String responseString = 'Something went wrong',
+  }) {
     when(
       mockHttpClient.get(any, headers: anyNamed('headers')),
     ).thenAnswer(
@@ -83,7 +84,7 @@ void main() {
           // Act
           final result = (await runner).fold(
             (_) => fail('should return [NumberTriviaDTO]'),
-            id,
+            identity,
           );
 
           // Assert
@@ -101,7 +102,7 @@ void main() {
 
           // Act
           final result = (await runner).fold(
-            id,
+            identity,
             (_) => fail('should return [ServerException]'),
           );
 
@@ -157,7 +158,7 @@ void main() {
           // Act
           final result = (await runner).fold(
             (_) => fail('should return [NumberTriviaDTO]'),
-            id,
+            identity,
           );
 
           // Assert
@@ -175,7 +176,7 @@ void main() {
 
           // Act
           final result = (await runner).fold(
-            id,
+            identity,
             (_) => fail('should return [ServerException]'),
           );
 

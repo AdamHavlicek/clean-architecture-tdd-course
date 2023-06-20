@@ -7,7 +7,7 @@ abstract class NetworkInfo {
 }
 
 @LazySingleton(as: NetworkInfo)
-class NetworkInfoImpl implements NetworkInfo {
+final class NetworkInfoImpl implements NetworkInfo {
   final InternetConnectionChecker connectionChecker;
 
   NetworkInfoImpl({

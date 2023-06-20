@@ -6,14 +6,17 @@ import '../../../domain/entities/number_trivia.dart';
 part 'number_trivia_data_state.freezed.dart';
 
 @freezed
-class NumberTriviaDataState with _$NumberTriviaDataState {
+sealed class NumberTriviaDataState with _$NumberTriviaDataState {
   const NumberTriviaDataState._();
 
   const factory NumberTriviaDataState.empty() = _Empty;
+
   const factory NumberTriviaDataState.loading() = _Loading;
+
   const factory NumberTriviaDataState.loaded(
     NumberTrivia trivia,
   ) = _Loaded;
+  
   const factory NumberTriviaDataState.error(
     Failure failure,
   ) = _Error;

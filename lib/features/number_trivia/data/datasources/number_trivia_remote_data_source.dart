@@ -7,20 +7,22 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/number_trivia_dto.dart';
 
-abstract class NumberTriviaRemoteDataSource {
+abstract interface class NumberTriviaRemoteDataSource {
   TaskEither<Exception, NumberTriviaDTO> getConcreteNumberTrivia(int number);
 
   TaskEither<Exception, NumberTriviaDTO> getRandomNumberTrivia();
 }
 
 @LazySingleton(as: NumberTriviaRemoteDataSource)
-class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
+final class NumberTriviaRemoteDataSourceImpl
+    implements NumberTriviaRemoteDataSource {
   final Client httpClient;
   final Map<String, String> headers = {'Content-Type': 'application/json'};
   final String host = 'numberapi.com';
   final String scheme = 'http';
 
   Function get concreteNumberUrl => _getBaseNumberApiUri;
+
   Uri get randomNumberUrl => _getBaseNumberApiUri('random');
 
   NumberTriviaRemoteDataSourceImpl({
@@ -36,32 +38,24 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   TaskEither<Exception, NumberTriviaDTO> _getTriviaFromUrl(
     Uri concreteOrRandomUrl,
   ) {
-    return TaskEither.tryCatch(
+    return TaskEither<Exception, Response>.tryCatch(
             () => httpClient.get(
                   concreteOrRandomUrl,
                   headers: headers,
                 ),
-            (err, __) => ServerException('Unexpected Exception $err'))
+            (err, __) => UnexpectedServerException(
+                  message: 'Unexpected Exception $err',
+                ))
         .chainEither(
           (response) => Either.fromPredicate(
             response,
             (response) => response.statusCode == 200,
-            (_) => const ServerException('Invalid Server Response'),
+            (_) => const ServerException(message: 'Invalid Server Response'),
           ),
         )
         .map(
-          (r) => NumberTriviaDTO.fromJson(json.decode(r.body)),
+          (response) => NumberTriviaDTO.fromJson(json.decode(response.body)),
         );
-
-    // final response =
-    //     await httpClient.get(concreteOrRandomUrl, headers: headers);
-    //
-    //
-    // if (response.statusCode != 200) {
-    //   throw const ServerException('Invalid Server Response');
-    // }
-    //
-    // return NumberTriviaDTO.fromJson(json.decode(response.body));
   }
 
   @override

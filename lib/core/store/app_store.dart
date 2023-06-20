@@ -8,7 +8,7 @@ import 'app_reducer.dart';
 import 'app_state.dart';
 import 'change.dart';
 
-class AppStore extends Store<AppState> {
+final class AppStore extends Store<AppState> {
   AppStore({
     required List<Middleware<AppState>> middleware,
   }) : super(

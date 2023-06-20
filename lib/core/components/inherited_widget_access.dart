@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Generic inherited widget for storing any value which need
 /// to be accessible in widget tree
-class InheritedWidgetAccess<T> extends InheritedWidget {
+final class InheritedWidgetAccess<T> extends InheritedWidget {
   final T value;
 
   const InheritedWidgetAccess({

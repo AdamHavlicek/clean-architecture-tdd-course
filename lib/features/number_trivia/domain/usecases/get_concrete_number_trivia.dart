@@ -16,7 +16,7 @@ class GetConcreteNumberTrivia
 
   @override
   Future<Either<Failure, NumberTrivia>> call(
-      ConcreteNumberTriviaParams params) async {
+      ConcreteNumberTriviaParams params) {
     final number = params.number.value;
     final result =
         number.toTaskEither().flatMap(repository.getConcreteNumberTrivia);

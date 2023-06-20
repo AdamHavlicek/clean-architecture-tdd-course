@@ -14,7 +14,7 @@ abstract class ValueObject<T> {
       (valueFailure) => throw Exception(
         'Tried to get value invalid [ValueObject]',
       ),
-      id,
+      identity,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:redux_epics/redux_epics.dart';
+import 'package:rxdart/rxdart.dart';
 
-abstract class _RequiredActionTransform<State> {
+abstract interface class _RequiredActionTransform<State> {
   Stream<dynamic> mapAction(Stream<dynamic> actions, EpicStore<State> store);
 }
 
@@ -17,7 +18,7 @@ abstract class EpicFilteredClass<State> extends EpicClass<State>
   @override
   Stream call(Stream actions, EpicStore<State> store) {
     // This will filter any unhandled action emit in Epics
-    return mapAction(actions, store).where((event) => event != null);
+    return mapAction(actions, store).whereNotNull();
   }
 }
 
@@ -25,6 +26,6 @@ abstract class EpicFilteredClass<State> extends EpicClass<State>
 mixin EpicFilteredMixin<State> on EpicClass<State> {
   @override
   Stream call(Stream actions, EpicStore<State> store) {
-    return super.call(actions, store).where((event) => event != null);
+    return super.call(actions, store).whereNotNull();
   }
 }

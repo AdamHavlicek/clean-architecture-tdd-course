@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class BaseException extends Equatable implements Exception {
+sealed class BaseException extends Equatable implements Exception {
   final String message;
 
   const BaseException({
@@ -11,10 +11,18 @@ abstract class BaseException extends Equatable implements Exception {
   List<Object> get props => [message];
 }
 
-class ServerException extends BaseException {
-  const ServerException(String message) : super(message: message);
+final class ServerException extends BaseException {
+  const ServerException({required super.message});
 }
 
-class CacheException extends BaseException {
-  const CacheException(String message) : super(message: message);
+sealed class UnexpectedException extends BaseException {
+  const UnexpectedException({required super.message});
+}
+
+final class UnexpectedServerException extends UnexpectedException {
+  const UnexpectedServerException({required super.message});
+}
+
+final class CacheException extends BaseException {
+  const CacheException({required super.message});
 }

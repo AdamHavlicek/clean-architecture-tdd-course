@@ -14,7 +14,7 @@ typedef _ConcreteOrRandomChooser = TaskEither<Exception, NumberTriviaDTO>
     Function();
 
 @LazySingleton(as: NumberTriviaRepository)
-class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
+final class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   final NumberTriviaLocalDataSource localDataSource;
   final NumberTriviaRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
@@ -41,7 +41,10 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     return TaskEither.fromEither(
       localDataSource.getLastNumberTrivia().run(),
     ).bimap(
-      (exception) => CacheFailure((exception as CacheException).message),
+      (exception) => switch(exception) {
+        final CacheException e => CacheFailure(e.message),
+        _ => const UnexpectedFailure(),
+      },
       (triviaDto) => triviaDto.toDomain(),
     );
   }
@@ -51,10 +54,12 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   ) {
     return getConcreteOrRandom()
         .bimap(
-          (exception) => ServerFailure(
-            (exception as ServerException).message,
-          ),
-          id
+          (exception) => switch (exception) {
+            final ServerException e => ServerFailure(e.message),
+            final UnexpectedServerException e => UnexpectedFailure(e.message),
+            _ => const UnexpectedFailure(),
+          },
+          identity,
         )
         .chainFirst(
           (triviaDto) => TaskEither.fromTask(
@@ -70,30 +75,12 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     _ConcreteOrRandomChooser getConcreteOrRandom,
   ) {
     final triviaOrFailure = networkInfo.isConnected.map(
-      (isConnected) => isConnected.match(
-        _hitCache,
-        () => _hitNetwork(getConcreteOrRandom),
-      ),
+      (isConnected) => switch (isConnected) {
+        false => _hitCache(),
+        true => _hitNetwork(getConcreteOrRandom),
+      },
     );
 
     return TaskEither.flatten(TaskEither.fromTask(triviaOrFailure));
-    // if (await networkInfo.isConnected) {
-    //   try {
-    //     final remoteTrivia = await getConcreteOrRandom();
-    //     localDataSource.cacheNumberTrivia(remoteTrivia);
-    //
-    //     return Either.right(remoteTrivia.toDomain());
-    //   } on ServerException catch (e) {
-    //     return Either.left(ServerFailure(e.message));
-    //   }
-    // }
-    //
-    // try {
-    //   final localNumberTrivia = await localDataSource.getLastNumberTrivia();
-    //
-    //   return Either.right(localNumberTrivia.toDomain());
-    // } on CacheException catch (e) {
-    //   return Either.left(CacheFailure(e.message));
-    // }
   }
 }

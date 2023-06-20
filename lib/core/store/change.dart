@@ -1,4 +1,4 @@
-class Change<State> {
+final class Change<State> {
   final State previousState;
   final State currentState;
 

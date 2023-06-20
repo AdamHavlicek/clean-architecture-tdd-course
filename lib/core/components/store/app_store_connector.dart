@@ -9,7 +9,7 @@ typedef StateBuilder<State> = Widget Function(
 );
 typedef ShouldRebuild<State> = bool Function(State state);
 
-class AppStoreConnector<State> extends StatelessWidget {
+final class AppStoreConnector<State> extends StatelessWidget {
   final StateSelector<State> selector;
   final StateBuilder<State> builder;
   final ShouldRebuild<State>? shouldRebuild;

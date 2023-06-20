@@ -4,7 +4,7 @@ import '../error/failures.dart';
 import 'validators.dart';
 import 'value_object.dart';
 
-class UnsignedInteger extends ValueObject<int> {
+final class UnsignedInteger extends ValueObject<int> {
   @override
   final Either<Failure, int> value;
 

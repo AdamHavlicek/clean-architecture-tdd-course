@@ -201,7 +201,7 @@ void main() {
       'should get data from the concrete use case',
       () async {
         // Arrange
-        const expectedResult = NoParams();
+        const expectedResult = noParams;
 
         // Mock
         when(mockGetRandomNumberTrivia(any)).thenAnswer(

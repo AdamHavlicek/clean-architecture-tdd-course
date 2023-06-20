@@ -5,7 +5,7 @@ import '../../features/number_trivia/presentation/store/number_trivia_data/numbe
 import 'app_state.dart';
 
 @lazySingleton
-class AppEpic {
+final class AppEpic {
   final NumberTriviaDataEpic numberTriviaDataEpic;
 
   AppEpic({

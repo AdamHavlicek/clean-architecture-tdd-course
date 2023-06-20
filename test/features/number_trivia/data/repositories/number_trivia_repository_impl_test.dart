@@ -66,14 +66,21 @@ void main() {
     test('should check if the device is online', () async {
       // Arrange
       // Mock
-      when(mockNetworkInfo.isConnected).thenReturn(Task.of(true));
+      when(
+        mockNetworkInfo.isConnected,
+      ).thenReturn(
+         Task.of(true),
+      );
       when(
         mockRemoteDataSource.getConcreteNumberTrivia(any),
       ).thenReturn(
         TaskEither.right(numberTriviaDTO),
       );
-      when(mockLocalDataSource.cacheNumberTrivia(any))
-          .thenReturn(Task.of(unit));
+      when(
+        mockLocalDataSource.cacheNumberTrivia(any),
+      ).thenReturn(
+        Task.of(unit),
+      );
 
       // Act
       await repository.getConcreteNumberTrivia(number).run();
@@ -133,7 +140,7 @@ void main() {
 
         // Mock
         when(mockRemoteDataSource.getConcreteNumberTrivia(any)).thenReturn(
-            TaskEither.left(const ServerException(expectedMessage)));
+            TaskEither.left(const ServerException(message: expectedMessage)));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -173,7 +180,7 @@ void main() {
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
-            .thenReturn(IOEither.left(const CacheException(expectedMessage)));
+            .thenReturn(IOEither.left(const CacheException(message: expectedMessage)));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -260,7 +267,7 @@ void main() {
 
         // Mock
         when(mockRemoteDataSource.getRandomNumberTrivia()).thenReturn(
-            TaskEither.left(const ServerException(expectedMessage)));
+            TaskEither.left(const ServerException(message: expectedMessage)));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
@@ -300,7 +307,7 @@ void main() {
 
         // Mock
         when(mockLocalDataSource.getLastNumberTrivia())
-            .thenReturn(IOEither.left(const CacheException(expectedMessage)));
+            .thenReturn(IOEither.left(const CacheException(message: expectedMessage)));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();

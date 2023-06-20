@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 typedef StreamListenerCallback<T> = void Function(T value);
 
-class StreamListener<T> extends StatefulWidget {
+final class StreamListener<T> extends StatefulWidget {
   final Stream<T> stream;
   final StreamListenerCallback<T> listener;
   final Widget child;
@@ -20,7 +20,7 @@ class StreamListener<T> extends StatefulWidget {
   StreamListenerState<T> createState() => StreamListenerState<T>();
 }
 
-class StreamListenerState<T> extends State<StreamListener<T>> {
+final class StreamListenerState<T> extends State<StreamListener<T>> {
   late final StreamSubscription _subscription;
 
   @override

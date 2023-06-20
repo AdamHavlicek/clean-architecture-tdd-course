@@ -73,12 +73,12 @@ void main() {
 
           // Act
           final Exception result = tDataSource.getLastNumberTrivia().run().fold(
-                id,
+                identity,
                 (_) => fail('should return [CacheException]'),
               );
 
           // Assert
-          expect(result, equals(const TypeMatcher<CacheException>()));
+          expect(result, isA<CacheException>());
         },
       );
     },

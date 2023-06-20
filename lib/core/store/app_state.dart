@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../features/number_trivia/presentation/store/number_trivia_store.dart';
 
-class AppState extends Equatable {
+final class AppState extends Equatable {
   final NumberTriviaState numberTriviaState;
 
   const AppState({required this.numberTriviaState});

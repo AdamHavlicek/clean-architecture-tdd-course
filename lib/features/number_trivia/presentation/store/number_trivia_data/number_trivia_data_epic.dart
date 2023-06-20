@@ -15,7 +15,7 @@ import 'number_trivia_data_actions.dart';
 typedef _UseCaseInvoke = Future<Either<Failure, NumberTrivia>> Function();
 
 @lazySingleton
-class NumberTriviaDataEpic<T> extends EpicFilteredClass<T> {
+final class NumberTriviaDataEpic<T> extends EpicFilteredClass<T> {
   final GetConcreteNumberTrivia getConcreteNumberTrivia;
   final GetRandomNumberTrivia getRandomNumberTrivia;
 
@@ -30,7 +30,7 @@ class NumberTriviaDataEpic<T> extends EpicFilteredClass<T> {
   }
 
   Stream<NumberTriviaDataAction> _handleRandom() {
-    return _handleAction(() => getRandomNumberTrivia(const NoParams()));
+    return _handleAction(() => getRandomNumberTrivia(noParams));
   }
 
   Stream<NumberTriviaDataAction> _handleAction(_UseCaseInvoke useCase) async* {
@@ -49,7 +49,7 @@ class NumberTriviaDataEpic<T> extends EpicFilteredClass<T> {
         yield* action.maybeWhen(
           fetchConcrete: _handleConcrete,
           fetchRandom: _handleRandom,
-          orElse: () async* {},
+          orElse: Stream.empty,
         );
       },
     );

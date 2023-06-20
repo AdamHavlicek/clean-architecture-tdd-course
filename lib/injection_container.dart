@@ -44,7 +44,7 @@ abstract class RegisterModule {
   Future<SharedPreferences> get preferences => SharedPreferences.getInstance();
 }
 
-@injectableInit
+@InjectableInit(preferRelativeImports: true)
 Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
 

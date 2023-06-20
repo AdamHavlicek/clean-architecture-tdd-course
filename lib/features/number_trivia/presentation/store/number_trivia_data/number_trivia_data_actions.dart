@@ -7,7 +7,7 @@ import '../../../domain/entities/number_trivia.dart';
 part 'number_trivia_data_actions.freezed.dart';
 
 @freezed
-class NumberTriviaDataAction with _$NumberTriviaDataAction {
+sealed class NumberTriviaDataAction with _$NumberTriviaDataAction {
   const NumberTriviaDataAction._();
 
   const factory NumberTriviaDataAction.fetchRandom() = _FetchRandom;

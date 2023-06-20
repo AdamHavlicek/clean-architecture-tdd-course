@@ -31,7 +31,7 @@ void main() {
         .thenReturn(TaskEither.right(expectedNumberTrivia));
 
     // Act
-    final result = await tUseCase(const NoParams());
+    final result = await tUseCase(noParams);
 
     // Assert
     expect(result, const Right(expectedNumberTrivia));
