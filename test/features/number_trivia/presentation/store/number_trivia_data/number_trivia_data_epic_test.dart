@@ -52,8 +52,7 @@ void main() {
     'initial state should be empty',
     () {
       // Arrange
-      // ignore: use_named_constants
-      const expectedState = NumberTriviaDataState.empty();
+      const expectedState = NumberTriviaDataState.initial;
 
       // Act
       final result = store.state;
@@ -121,7 +120,7 @@ void main() {
         });
 
         // Assert
-        expectLater(result, emitsInAnyOrder(expectedStates));
+        expectLater(result, emitsInOrder(expectedStates));
       },
     );
 
@@ -153,7 +152,7 @@ void main() {
         });
 
         // Assert
-        expectLater(result, emitsInAnyOrder(expectedStates));
+        expectLater(result, emitsInOrder(expectedStates));
       },
     );
 
@@ -185,7 +184,7 @@ void main() {
         });
 
         // Assert
-        expectLater(result, emitsInAnyOrder(expectedStates));
+        expectLater(result, emitsInOrder(expectedStates));
       },
     );
   });
@@ -240,7 +239,7 @@ void main() {
         });
 
         // Assert
-        expectLater(result, emitsInAnyOrder(expectedStates));
+        expectLater(result, emitsInOrder(expectedStates));
       },
     );
 
@@ -267,7 +266,7 @@ void main() {
         });
 
         // Assert
-        expectLater(result, emitsInAnyOrder(expectedStates));
+        expectLater(result, emitsInOrder(expectedStates));
       },
     );
 
@@ -294,7 +293,7 @@ void main() {
         });
 
         // Assert
-        expectLater(result, emitsInAnyOrder(expectedStates));
+        expectLater(result, emitsInOrder(expectedStates));
       },
     );
   });

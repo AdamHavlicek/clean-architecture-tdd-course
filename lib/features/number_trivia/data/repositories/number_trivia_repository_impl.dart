@@ -38,15 +38,13 @@ final class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   }
 
   TaskEither<Failure, NumberTrivia> _hitCache() {
-    return TaskEither.fromEither(
-      localDataSource.getLastNumberTrivia().run(),
-    ).bimap(
-      (exception) => switch(exception) {
-        final CacheException e => CacheFailure(e.message),
-        _ => const UnexpectedFailure(),
-      },
-      (triviaDto) => triviaDto.toDomain(),
-    );
+    return localDataSource.getLastNumberTrivia().toTaskEither().bimap(
+          (exception) => switch (exception) {
+            final BaseException e => Failure.fromBaseException(e),
+            _ => const UnexpectedFailure(),
+          },
+          (triviaDto) => triviaDto.toDomain(),
+        );
   }
 
   TaskEither<Failure, NumberTrivia> _hitNetwork(
@@ -55,8 +53,7 @@ final class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
     return getConcreteOrRandom()
         .bimap(
           (exception) => switch (exception) {
-            final ServerException e => ServerFailure(e.message),
-            final UnexpectedServerException e => UnexpectedFailure(e.message),
+            final BaseException e => Failure.fromBaseException(e),
             _ => const UnexpectedFailure(),
           },
           identity,
