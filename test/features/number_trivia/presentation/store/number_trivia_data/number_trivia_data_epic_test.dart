@@ -31,6 +31,12 @@ void main() {
   late NumberTriviaDataEpic tEpic;
 
   setUp(() {
+    provideDummy<Either<Failure, NumberTrivia>>(
+      Either.left(
+        const UnexpectedFailure('Dummy Value'),
+      ),
+    );
+
     mockGetConcreteNumberTrivia = MockGetConcreteNumberTrivia();
     mockGetRandomNumberTrivia = MockGetRandomNumberTrivia();
 

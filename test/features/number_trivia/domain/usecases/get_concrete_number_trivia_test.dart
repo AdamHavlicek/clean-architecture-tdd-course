@@ -1,4 +1,5 @@
 import 'package:clean_architecture_tdd_course/core/domain/unsigned_integer.dart';
+import 'package:clean_architecture_tdd_course/core/error/failures.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/concrete_number_trivia_params.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture_tdd_course/features/number_trivia/domain/repositories/number_trivia_repository.dart';
@@ -16,6 +17,8 @@ void main() {
   late MockNumberTriviaRepository mockNumberTriviaRepository;
 
   setUp(() {
+    provideDummy(TaskEither<Failure, NumberTrivia>.left(const UnexpectedFailure('Dummy Value')));
+
     mockNumberTriviaRepository = MockNumberTriviaRepository();
 
     tUseCase = GetConcreteNumberTrivia(repository: mockNumberTriviaRepository);

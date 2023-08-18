@@ -13,11 +13,13 @@ import 'package:mockito/mockito.dart';
 
 import 'number_trivia_repository_impl_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<NumberTriviaRemoteDataSource>(),
-  MockSpec<NumberTriviaLocalDataSource>(),
-  MockSpec<NetworkInfo>()
-])
+@GenerateNiceMocks(
+  [
+    MockSpec<NumberTriviaRemoteDataSource>(),
+    MockSpec<NumberTriviaLocalDataSource>(),
+    MockSpec<NetworkInfo>(),
+  ],
+)
 void main() {
   late NumberTriviaRepositoryImpl repository;
   late MockNumberTriviaRemoteDataSource mockRemoteDataSource;
@@ -25,14 +27,32 @@ void main() {
   late MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
+    provideDummy<Task<bool>>(
+      Task.of(false),
+    );
+    provideDummy<Task<Unit>>(
+      Task.of(unit),
+    );
+    provideDummy<TaskEither<Exception, NumberTriviaDTO>>(
+       TaskEither.left(
+        Exception('Dummy Value'),
+      ),
+    );
+    provideDummy<IOEither<Exception, NumberTriviaDTO>>(
+      IOEither.left(
+        Exception('Dummy Value'),
+      ),
+    );
+
     mockRemoteDataSource = MockNumberTriviaRemoteDataSource();
     mockLocalDataSource = MockNumberTriviaLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
 
     repository = NumberTriviaRepositoryImpl(
-        remoteDataSource: mockRemoteDataSource,
-        localDataSource: mockLocalDataSource,
-        networkInfo: mockNetworkInfo);
+      remoteDataSource: mockRemoteDataSource,
+      localDataSource: mockLocalDataSource,
+      networkInfo: mockNetworkInfo,
+    );
   });
 
   void runTestsOnline(Function body) {
@@ -69,7 +89,7 @@ void main() {
       when(
         mockNetworkInfo.isConnected,
       ).thenReturn(
-         Task.of(true),
+        Task.of(true),
       );
       when(
         mockRemoteDataSource.getConcreteNumberTrivia(any),
@@ -179,8 +199,8 @@ void main() {
         const expectedResult = Left(CacheFailure(expectedMessage));
 
         // Mock
-        when(mockLocalDataSource.getLastNumberTrivia())
-            .thenReturn(IOEither.left(const CacheException(message: expectedMessage)));
+        when(mockLocalDataSource.getLastNumberTrivia()).thenReturn(
+            IOEither.left(const CacheException(message: expectedMessage)));
 
         // Act
         final result = await repository.getConcreteNumberTrivia(number).run();
@@ -306,8 +326,8 @@ void main() {
         const expectedResult = Left(CacheFailure(expectedMessage));
 
         // Mock
-        when(mockLocalDataSource.getLastNumberTrivia())
-            .thenReturn(IOEither.left(const CacheException(message: expectedMessage)));
+        when(mockLocalDataSource.getLastNumberTrivia()).thenReturn(
+            IOEither.left(const CacheException(message: expectedMessage)));
 
         // Act
         final result = await repository.getRandomNumberTrivia().run();
