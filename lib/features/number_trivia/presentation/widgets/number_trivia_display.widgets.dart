@@ -3,7 +3,7 @@ part of 'number_trivia_display.dart';
 class MessageDisplay extends StatelessWidget {
   final String message;
 
-  const MessageDisplay({Key? key, required this.message}) : super(key: key);
+  const MessageDisplay({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class MessageDisplay extends StatelessWidget {
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class LoadingWidget extends StatelessWidget {
 class TriviaDisplay extends StatelessWidget {
   final NumberTrivia trivia;
 
-  const TriviaDisplay({required this.trivia, Key? key}) : super(key: key);
+  const TriviaDisplay({required this.trivia, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -27,8 +27,8 @@ abstract class RegisterModule {
   AppStore get store {
     return AppStore(
       middleware: [
-        epicMiddleware,
-        LoggingMiddleware.printer(),
+        epicMiddleware.call,
+        LoggingMiddleware.printer().call,
       ],
     );
   }

@@ -35,5 +35,5 @@ final class InvalidInputFailure extends Failure {
 }
 
 final class UnexpectedFailure extends Failure {
-  const UnexpectedFailure([message = 'Unexpected Failure']) : super(message);
+  const UnexpectedFailure([super.message = 'Unexpected Failure']);
 }

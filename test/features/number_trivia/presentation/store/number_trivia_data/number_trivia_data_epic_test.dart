@@ -49,7 +49,7 @@ void main() {
       numberTriviaDataReducer,
       initialState: NumberTriviaDataState.initial,
       middleware: [
-        EpicMiddleware<NumberTriviaDataState>(tEpic),
+        EpicMiddleware<NumberTriviaDataState>(tEpic.call).call,
       ],
     );
   });

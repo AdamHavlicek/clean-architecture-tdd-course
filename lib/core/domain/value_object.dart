@@ -30,7 +30,7 @@ abstract class ValueObject<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (other is ValueObject) {
       return value == other.value;
     } else if (other is Option<ValueObject<T>>) {

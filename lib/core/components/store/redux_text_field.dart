@@ -30,7 +30,7 @@ class ReduxTextField extends HookWidget {
   final _formKey = GlobalKey<FormState>();
 
   ReduxTextField(
-      {Key? key,
+      {super.key,
       required this.onChange,
       required this.stateValueAccess,
       required this.decoration,
@@ -46,8 +46,7 @@ class ReduxTextField extends HookWidget {
       this.obscureText = false,
       this.focusNext = false,
       this.clearOnTap = false,
-      this.autovalidateMode = AutovalidateMode.always})
-      : super(key: key);
+      this.autovalidateMode = AutovalidateMode.always});
 
   void _setInputValue(String? input, TextEditingController controller) {
     controller.text = input ?? '';

@@ -7,8 +7,8 @@ final class InheritedWidgetAccess<T> extends InheritedWidget {
 
   const InheritedWidgetAccess({
     required this.value,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {

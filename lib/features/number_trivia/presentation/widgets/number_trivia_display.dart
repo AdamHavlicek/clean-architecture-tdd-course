@@ -8,8 +8,8 @@ part 'number_trivia_display.widgets.dart';
 
 class NumberTriviaDisplay extends StatelessWidget {
   const NumberTriviaDisplay({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

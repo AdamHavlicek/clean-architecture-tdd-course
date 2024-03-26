@@ -15,16 +15,16 @@ class AppWrapper extends StatelessWidget {
   }
 }
 
-/// {@template app}
+/// {{@template app}}
 /// Main Widget which starts the whole application
-/// {@end template}
+/// {{@end template}}
 class App extends StatelessWidget {
   /// Theme with which to build the [App]
 
   /// {@macro app}
   const App({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

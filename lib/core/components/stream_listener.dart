@@ -10,11 +10,11 @@ final class StreamListener<T> extends StatefulWidget {
   final Widget child;
 
   const StreamListener({
-    Key? key,
+    super.key,
     required this.stream,
     required this.listener,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   StreamListenerState<T> createState() => StreamListenerState<T>();

@@ -12,5 +12,7 @@ final class AppEpic {
     required this.numberTriviaDataEpic,
   });
 
-  Epic<AppState> get combinedEpic => combineEpics([numberTriviaDataEpic]);
+  Epic<AppState> get combinedEpic => combineEpics([
+        numberTriviaDataEpic.call,
+      ]);
 }
