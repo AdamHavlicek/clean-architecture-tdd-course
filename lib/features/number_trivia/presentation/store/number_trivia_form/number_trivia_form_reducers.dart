@@ -6,12 +6,11 @@ NumberTriviaFormState numberTriviaFormReducer(
   dynamic action,
 ) {
   if (action is NumberTriviaFormAction) {
-    return action.maybeWhen(
-      numberChanged: (number) {
-        return state.copyWith.params(number: UnsignedInteger(number!));
-      },
-      orElse: () => state,
-    );
+    return switch (action) {
+      NumberChangedAction(:final number) => state.copyWith.params(
+          number: UnsignedInteger(number!),
+        ),
+    };
   }
 
   return state;

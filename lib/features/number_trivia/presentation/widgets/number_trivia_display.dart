@@ -16,18 +16,18 @@ class NumberTriviaDisplay extends StatelessWidget {
     return AppStoreConnector<NumberTriviaDataState>(
       selector: numberTriviaDataSelector,
       builder: (context, state) {
-        return state.maybeWhen(
-          loaded: (trivia) => TriviaDisplay(
-            trivia: trivia,
-          ),
-          loading: () => const LoadingWidget(),
-          error: (failure) => MessageDisplay(
-            message: failure.message,
-          ),
-          orElse: () => const MessageDisplay(
-            message: 'Start searching!',
-          ),
-        );
+        return switch (state) {
+          LoadedState(:final trivia) => TriviaDisplay(
+              trivia: trivia,
+            ),
+          LoadingState() => const LoadingWidget(),
+          ErrorState(:final failure) => MessageDisplay(
+              message: failure.message,
+            ),
+          _ => const MessageDisplay(
+              message: 'Start searching!',
+            ),
+        };
       },
     );
   }

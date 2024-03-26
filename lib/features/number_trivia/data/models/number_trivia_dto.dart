@@ -6,7 +6,10 @@ import '../../domain/entities/number_trivia.dart';
 part 'number_trivia_dto.freezed.dart';
 part 'number_trivia_dto.g.dart';
 
-@freezed
+@Freezed(
+    map: FreezedMapOptions.none,
+    when: FreezedWhenOptions.none
+)
 sealed class NumberTriviaDTO with _$NumberTriviaDTO {
   const factory NumberTriviaDTO({
     required String text,

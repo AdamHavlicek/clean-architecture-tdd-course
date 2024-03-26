@@ -5,13 +5,16 @@ NumberTriviaDataState numberTriviaDataReducer(
   dynamic action,
 ) {
   if (action is NumberTriviaDataAction) {
-    return action.maybeWhen(
-      fetchConcrete: (_) => const NumberTriviaDataState.loading(),
-      fetchRandom: () => const NumberTriviaDataState.loading(),
-      fetchingSuccess: NumberTriviaDataState.loaded,
-      fetchingFailed: NumberTriviaDataState.error,
-      orElse: () => state,
-    );
+    return switch (action) {
+      FetchConcreteAction() => const NumberTriviaDataState.loading(),
+      FetchRandomAction() => const NumberTriviaDataState.loading(),
+      FetchingSuccessAction(:final trivia) => NumberTriviaDataState.loaded(
+          trivia,
+        ),
+      FetchingFailedAction(:final failure) => NumberTriviaDataState.error(
+          failure,
+        ),
+    };
   }
 
   return state;

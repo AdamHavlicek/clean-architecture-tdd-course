@@ -46,11 +46,11 @@ final class NumberTriviaDataEpic<T> extends EpicFilteredClass<T> {
   Stream mapAction(Stream actions, EpicStore<T> store) {
     return actions.whereType<NumberTriviaDataAction>().switchMap(
       (action) async* {
-        yield* action.maybeWhen(
-          fetchConcrete: _handleConcrete,
-          fetchRandom: _handleRandom,
-          orElse: Stream.empty,
-        );
+        yield* switch (action) {
+          FetchConcreteAction(:final params) => _handleConcrete(params),
+          FetchRandomAction() => _handleRandom(),
+          _ => const Stream.empty(),
+        };
       },
     );
   }

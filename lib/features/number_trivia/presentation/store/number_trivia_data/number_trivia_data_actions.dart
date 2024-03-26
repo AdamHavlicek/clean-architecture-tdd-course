@@ -6,21 +6,24 @@ import '../../../domain/entities/number_trivia.dart';
 
 part 'number_trivia_data_actions.freezed.dart';
 
-@freezed
+@Freezed(
+    map: FreezedMapOptions.none,
+    when: FreezedWhenOptions.none
+)
 sealed class NumberTriviaDataAction with _$NumberTriviaDataAction {
   const NumberTriviaDataAction._();
 
-  const factory NumberTriviaDataAction.fetchRandom() = _FetchRandom;
+  const factory NumberTriviaDataAction.fetchRandom() = FetchRandomAction;
 
   const factory NumberTriviaDataAction.fetchConcrete(
     ConcreteNumberTriviaParams params,
-  ) = _FetchConcrete;
+  ) = FetchConcreteAction;
 
   const factory NumberTriviaDataAction.fetchingSuccess(
     NumberTrivia trivia,
-  ) = _FetchingSuccess;
+  ) = FetchingSuccessAction;
 
   const factory NumberTriviaDataAction.fetchingFailed(
     Failure failure,
-  ) = _FetchingFailed;
+  ) = FetchingFailedAction;
 }
