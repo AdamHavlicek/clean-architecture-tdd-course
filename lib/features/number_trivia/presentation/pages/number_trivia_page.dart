@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import '../widgets/widgets.dart';
 
@@ -23,13 +24,11 @@ class NumberTriviaPage extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
-            SizedBox(
-              height: 10,
-            ),
+            Gap(10),
             // Top Half
             NumberTriviaDisplay(),
-            SizedBox(
-              height: 20,
+            Gap(
+              20
             ),
             // Bottom Half
             NumberTriviaForm(),

@@ -52,6 +52,7 @@ dependencies:
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
   # UI
+  gap: ^3.0.0
   # Redux
   flutter_redux: ^0.10.0
   redux_epics: ^0.15.1
